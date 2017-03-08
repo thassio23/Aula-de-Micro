@@ -8,15 +8,12 @@ Thássio Gabriel Farias dos Santos  14/0163697
   R: São sistemas que possuem microprocessadores que executam operações lógicas em um computador.
 
 3. **Apresente aplicações de sistemas embarcados:**
-
-- **Para indústria automotiva;**
+  1. **Para indústria automotiva;**
   R: Analisar informações dos sensores instalados pelo veículo e avisar se há o mal funcionmaneto de algum
   componente do carro. ativação dos airbags
-  
-- **Para eletrodomésticos;**
+  2. **Para eletrodomésticos;**
   R: Controlar o eletrodoméstico de forma simple como por exemplo programar o tempo de uso de um microondas.
-
-- **Para automação industrial;**
+  3. **Para automação industrial;**
   R: Controlar as máquinas ao longo do meio de produção de uma industria.
 
 4. **Cite arquiteturas possíveis e as diferenças entre elas.**
