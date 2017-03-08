@@ -19,8 +19,8 @@ Thássio Gabriel Farias dos Santos  14/0163697
 - **Para automação industrial;**
   R: Controlar as máquinas ao longo do meio de produção de uma industria.
 
-**Cite arquiteturas possíveis e as diferenças entre elas.**
+4. **Cite arquiteturas possíveis e as diferenças entre elas.**
   R:As arquiteturas são a Harvard Architecture e a Von Neumann Architecture. A arquitetura Von Neumann é mais simples e menos eficiente pois a arquitetura Harvard consegue ler e escrever informações ao mesmo tempo e a arquitetura Von Neumann ou lê ou escreve informações.
 
-**Por que usamos MSP430 na disciplina ao invés de outro microcontrolador?**
+5. **Por que usamos MSP430 na disciplina ao invés de outro microcontrolador?**
   R: Devido ao baixo consumo de energia do MSP430.
