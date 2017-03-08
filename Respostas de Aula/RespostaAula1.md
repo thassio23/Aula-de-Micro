@@ -10,7 +10,7 @@ Thássio Gabriel Farias dos Santos  14/0163697
 3. **Apresente aplicações de sistemas embarcados:**
   1. **Para indústria automotiva;**
   R: Analisar informações dos sensores instalados pelo veículo e avisar se há o mal funcionmaneto de algum
-  componente do carro. ativação dos airbags
+  componente do carro.
   2. **Para eletrodomésticos;**
   R: Controlar o eletrodoméstico de forma simples como por exemplo programar o tempo de funcionamento de um micro-ondas.
   3. **Para automação industrial;**
