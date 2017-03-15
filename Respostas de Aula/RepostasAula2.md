@@ -44,4 +44,9 @@ R:As arquiteturas são a Harvard Architecture e a Von Neumann Architecture. A ar
      0x80 ----- 0x203           0xCD ----- 0x203
 
 **Q6. Sabendo que o processador do MSP430 tem registradores de 16 bits, como ele soma duas variáveis de 32 bits?**
-R:
+R:Usando 4 registradores. 
+ - Primeiro deve ser inserido a primeira metade dos bits de um numero (16 bits) em um registrador e depois a outra metade em outro registrador;
+ - Repete-se o mesmo processo para o outro número;
+ - Soma-se as primeiras metades dos numeros e armazena o resultado em um dos registradores;
+ - Junto com o carry, soma-se a outra metade dos numeros e o resultado final guarda-se em um registrador;
+ - Usando os resultados de dois registradores em conjunto forma-se a soma dos dois numeros de 32 bits;
