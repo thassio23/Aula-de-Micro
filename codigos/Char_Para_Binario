@@ -29,12 +29,11 @@ main()
     int vetor[8];
     int i;
 
+        for(;;){
         scanf("%c", &letra);
         conta(&letra, &vetor);
         for (i = 0; i <= 7 ;i++) {
         printf("%d", vetor[i]);
-        if(i == 7){
-            break;
         }
         }
 
