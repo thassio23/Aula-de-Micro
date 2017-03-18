@@ -2,40 +2,46 @@
 
 void conta(char *a, int *vetor)
 {
-int arruma[8];
-int binario[8];
-int j = 7;
-int i;
-char b;
-b = *a;
+        int arruma[8];
+        int binario[8];
+        int j = 7;
+        int i;
+        char b;
+        b = *a;
 
         for (i = 0; i <= 7 ;i++) {
-            binario[i] = (b >> i) & 1;
-            arruma[j] = binario[i];
-            vetor[i] = arruma[i];
-            j--;
+                binario[i] = (b >> i) & 1;
+                arruma[j] = binario[i];
+                vetor[i] = arruma[i];
+                j--;
         }
-         for (i = 0; i <= 7 ;i++) {
-         vetor[i] = arruma[i];
-         }
-    return;
+
+        for (i = 0; i <= 7 ;i++) {
+                 vetor[i] = arruma[i];
+        }
+
+        return;
 }
 
 
-main()
-
+int main()
 {
-    char letra;
-    int vetor[8];
-    int i;
+        char letra;
+        int vetor[8];
+        int i;
 
         for(;;){
-        scanf("%c", &letra);
-        conta(&letra, &vetor);
-        for (i = 0; i <= 7 ;i++) {
-        printf("%d", vetor[i]);
-        }
+                scanf("%c", &letra);
+                conta(&letra, &vetor[0]);
+                for (i = 0; i <= 7 ;i++) {
+                        printf("%d", vetor[i]);
+                }
+
+        printf("\n");
+
+        getchar();
+
         }
 
-    return 0;
+        return 0;
 }
