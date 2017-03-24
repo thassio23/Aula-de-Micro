@@ -1,0 +1,84 @@
+Data: 24/03/2017
+
+Thássio Gabriel Farias dos Santos 140163697
+
+Para todas as questões, considere que as variáveis 'f', 'g', 'h', 'i' e 'j' são do tipo inteiro (16 bits na arquitetura do MSP430), e que o vetor 'A[]' é do tipo inteiro. Estas variáveis estão armazenadas nos seguintes registradores:
+	f: R4
+	g: R5
+	h: R6
+	i: R7
+	j: R8
+	A: R9
+Utilize os registradores R11, R12, R13, R14 e R15 para armazenar valores temporários.
+
+1. Traduza as seguintes linhas em C para a linguagem assembly do MSP430. Utilize somente as seguintes instruções: mov.w, add.w e sub.w.
+	(a) f = 0;
+  R: mov.w 0,f
+  
+	(b) g++;
+  R: add.w #1,g
+  
+	(c) h--;
+  R: sub.w #1,h
+  
+	(d) i += 2;
+ R: add.w #2,i
+ 
+	(e) j -= 2;
+ R: sub.w #2,j
+ 
+2. Traduza as seguintes linhas em C para a linguagem assembly do MSP430. Utilize somente as seguintes instruções: mov.w, add.w, sub.w, clr.w, dec.w, decd.w, inc.w e incd.w.
+	(a) f = 0;
+  R:clr.w f
+  
+	(b) g++;
+  R: inc.w g
+  
+	(c) h--;
+  R: dec.w h
+  
+	(d) i += 2;
+  
+  R:incd.w i
+	(e) j -= 2;
+  
+  R: decd.w j
+
+3. Traduza as seguintes linhas em C para a linguagem assembly do MSP430. Utilize somente as seguintes instruções: mov.w, add.w, sub.w, clr.w, dec.w, decd.w, inc.w e incd.w.
+	(a) f *= 2;
+  R: add.w f,f
+  
+	(b) g *= 3;
+  R:mov.w g,R11
+    add.w R11,g
+    add.w R11,g
+  
+	(c) h *= 4;
+  
+    R:mov.w g,R11
+    add.w R11,h
+    add.w R11,h
+    add.w R11,h
+    
+	(d) A[2] = A[1] + A[0];
+  
+  R: mov.w 2(R9), R11
+     mov.w 1(R9), R12
+     add.w R11,R12
+     mov.w R12,4(R9)
+     
+	(e) A[3] = 2*f - 4*h;
+  
+ R: add.w f,f
+    mov.w g,R11
+    add.w R11,h
+    add.w R11,h
+    add.w R11,h
+    sub.w h,f
+    mov.w f,6(R9)
+  
+	(f) A[3] = 2*(f - 2*h);
+  
+  R: add.w h,h
+     sub.w f,h
+     mov.w h,6(R9)
