@@ -1,5 +1,5 @@
 # Proposta do Projeto
-# Prótese de mão
+# Mão Protética
 
 Amauri da Costa Junior  140015655  amauri_cj@hotmail.com
 
