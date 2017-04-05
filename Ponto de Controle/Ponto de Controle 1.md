@@ -12,7 +12,7 @@ Gama,Brasil
 
 **Resumo—Este documento mostra a justificativa, os objetivos, os requisitos e os benefícios do projeto.**
 
-**Palavrsa-chave—prótese,mps430,social.**
+**Palavra-chave—prótese,mps430,social.**
 
 I. JUSTIFICATIVA 
 
@@ -24,7 +24,7 @@ II. OBJETIVOS
 
 III.	REQUISITOS
 
-  A mão protética precisa possuir uma forma de controle que permita que uma pessoa sem uma das mãos possa controla-la, precisa possuir força suficiente para segurar objetos do dia-a-dia e não pode consumir muito energia, já que não poderá receber alimentação externa.
+  A mão protética precisa possuir uma forma de controle que permita que uma pessoa sem uma das mãos possa controla-la, precisa possuir força suficiente para segurar objetos do dia-a-dia e não pode consumir muita energia, já que não poderá receber alimentação externa.
 
 IV.	BENEFÍCIOS
 
