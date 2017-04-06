@@ -46,18 +46,93 @@ Para cada questão, escreva funções em C e/ou sub-rotinas na linguagem Assembl
 
 5. (a) Escreva uma função em C que indica a primalidade de uma variável inteira sem sinal, retornando o valor 1 se o número for primo, e 0, caso contrário. Siga o seguinte protótipo:
 
-	int Primalidade(unsigned int x);
+	int Primalidade(unsigned int x)
+	{   int i;
+	    int m;
+	    for(i = 2; i<10;i++){
+        if(x%i == 0){
+            m++;
+        }
+	    }
+	    if( m == 0){
+        return 1;
+	    }
+	    if(x < 10 && m == 1){
+            return 1;
+	    }
+	    if(x < 10 && m > 1){
+	    return 0;}
+	    if(m != 0 && x>=10){
+        return 0;
+	    }
+	}
 
 (b) Escreva a sub-rotina equivalente na linguagem Assembly do MSP430. A variável de entrada é fornecida pelo registrador R15, e o valor de saída também.
 
 6. Escreva uma função em C que calcula o duplo fatorial de n, representado por n!!. Se n for ímpar, n!! = 1*3*5*...*n, e se n for par, n!! = 2*4*6*...*n. Por exemplo, 9!! = 1*3*5*7*9 = 945 e 10!! = 2*4*6*8*10 = 3840. Além disso, 0!! = 1!! = 1.
 O protótipo da função é:
 
-	unsigned long long DuploFatorial(unsigned long long n);
+	unsigned long long DuploFatorial(unsigned long long n)
+	{
+	    unsigned long long i;
+	    unsigned long long j;
+	    unsigned long long k;
+	    unsigned long long l;
+
+	    k = n;
+	    l = n;
+
+	if (n == 0){
+	return 1;
+	}
+	    for(i = 1; n > 1; n--){
+        if(n%2 == 0){
+            i *= n;
+        }
+        }
+
+        for(j = 1; k > 1; k--){
+        if(k%2 == 1){
+            j *= k;
+        }
+        }
+        if(l%2 == 1){
+            return j;
+        }
+        if(l%2 == 0){
+            return i;
+        }
+	}
 
 7. (a) Escreva uma função em C que calcula a função exponencial da seguinte forma:
 	
-Considere o cálculo até o termo n = 20. O protótipo da função é double ExpTaylor(double x);
+int ExpTaylor(double x){
+    int i,j,z,numero;
+    double recebe;
+    double b;
+    double xelv[20];
+    double nfat[20];
+    b = x;
+    numero = 1;
+    recebe = 0;
+    xelv[0]=1;
+    xelv[1]= x;
+    nfat[0]=1;
+    for(i = 0;i < 10; i++){
+        x = x * b;
+        xelv[i+2] = x;
+    }
+  for(j=1; j<=9; ++j)
+        {
+            numero *= j;
+            nfat[j] = numero;
+        }
+  for(z=0;z < 10; z++){
+    recebe = recebe + (xelv[z]/nfat[z]);
+  }
+  return recebe;
+}
+
 (b) Escreva a sub-rotina equivalente na linguagem Assembly do MSP430, mas considere que os valores de entrada e de saída são inteiros de 16 bits. A variável de entrada é fornecida pelo registrador R15, e o valor de saída também.
 
 8. Escreva uma sub-rotina na linguagem Assembly do MSP430 que indica se um vetor esta ordenado de forma decrescente. Por exemplo:
