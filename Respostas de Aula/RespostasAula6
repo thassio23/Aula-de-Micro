@@ -174,6 +174,61 @@ fim:
 
 (b) Escreva a sub-rotina equivalente na linguagem Assembly do MSP430. A variável de entrada é fornecida pelo registrador R15, e o valor de saída também.
 
+Primalidade:
+
+comeco: MOV.W #2,R8 
+        MOV.W #0,R5
+        MOV.W #1,R13
+trocanumero:
+        MOV.W #8,R9 ;valores de entrada
+        ADD.W #1,R8     
+        MOV.W #0,R14
+        MOV.W #1,R10
+        CMP #1,R9
+        JEQ retornaum
+        CMP #3,R9
+        JEQ retornaum
+        CMP #5,R9
+        JEQ retornaum
+        CMP #7,R9
+        JEQ retornaum
+divisao:
+        ADD.W #1,R14
+        SUB.W R8,R9
+        ADD.W #1, R10
+        CMP R9,R8
+        jl divisao
+        jeq final_divisao
+        jne fim
+final_divisao:
+        ADD.W #1,R10
+        MOV.W #0,R9       
+fim:    
+        MOV.W R9,R15
+        CMP #0,R15
+        JEQ somaum
+        CMP #9,R13
+        JEQ acabou
+        INC.W R13
+        JMP trocanumero
+        
+somaum:
+        ADD.W #1,R13
+        ADD.W #1,R5
+        CMP.W #9,R13
+        JEQ acabou
+        JMP trocanumero
+acabou:
+        CMP #0,R5
+        JEQ retornaum
+        JMP retornazero
+retornazero:
+        MOV.W #0,R15
+        jmp VERYEND
+retornaum:
+        MOV.W #1,R15
+VERYEND:
+
 6. Escreva uma função em C que calcula o duplo fatorial de n, representado por n!!. Se n for ímpar, n!! = 1*3*5*...*n, e se n for par, n!! = 2*4*6*...*n. Por exemplo, 9!! = 1*3*5*7*9 = 945 e 10!! = 2*4*6*8*10 = 3840. Além disso, 0!! = 1!! = 1.
 O protótipo da função é:
 
@@ -239,6 +294,107 @@ int ExpTaylor(double x){
 }
 
 (b) Escreva a sub-rotina equivalente na linguagem Assembly do MSP430, mas considere que os valores de entrada e de saída são inteiros de 16 bits. A variável de entrada é fornecida pelo registrador R15, e o valor de saída também.
+
+FUNCEXPONENCIAL:
+
+            MOV.W #2,R6 ; entrada
+            MOV.W #1,R12
+            MOV.W #1,R11
+exponencial:            
+            CMP #5,R12
+            JEQ acaba
+            call #funcfatorial
+            MOV.W #2,R6 ; entrada
+            MOV.W #1,R7
+            MOV.W #0,R9
+            call #funcPOTENCIA
+            MOV.W #0,R10
+            call #divisao
+            ADD.W R11,R13
+            MOV.W R13,R11
+            INC.W R12
+            JMP exponencial
+acaba: 
+	  MOV.W R13,R15
+          RET
+funcfatorial:
+         
+         MOV.W R12,R15
+         MOV.W #1, R7
+         MOV.W R15, R10
+         MOV.W #1,R9
+         MOV.W R15,R5
+         MOV.W R15,R8
+         DEC.W R5
+
+         CMP #0,R15
+         JEQ igualumf
+         CMP #1,R15
+         JEQ igualumf
+         CMP #2,R15
+         JEQ igualdoisf
+         JMP MULTIPLICACAOf
+igualumf:
+          MOV.W #1,R4
+          RET
+igualdoisf:
+          MOV.W #2,R4
+          RET
+MULTIPLICACAOf:
+         CMP R7, R5
+         JEQ POTENCIAf
+         ADD.W #1,R7
+         ADD.W R8,R10
+         jmp MULTIPLICACAOf
+POTENCIAf:
+        DEC.W R5
+        CMP #1,R5
+        JEQ FIMf
+        MOV.W #1,R7
+        MOV.W R10,R8
+        JNE MULTIPLICACAOf
+FIMf:
+        MOV.W R10, R4
+        RET
+funcPOTENCIA: 
+         MOV.W R6,R15 ; 
+         MOV.W R12,R14 ; 
+         MOV.W #1, R7
+         MOV.W R6, R10
+         MOV.W #1,R9
+         MOV.W R15,R5
+         MOV.W R5,R8
+         MOV.W R14, R6
+         CMP #1,R12
+         JNE MULTIPLICACAO
+         RET        
+MULTIPLICACAO:
+         CMP R7, R5
+         JEQ POTENCIA
+         ADD.W #1,R7
+         ADD.W R8,R10
+         jmp MULTIPLICACAO
+POTENCIA:     
+        MOV.W R10,R5
+        MOV.W #0,R10
+        ADD.W #1,R9
+        CMP R14,R9
+        MOV.W #0,R7
+        JNE MULTIPLICACAO
+        MOV.W R5, R15
+        RET
+divisao:
+        SUB.W R4,R15
+        ADD.W #1, R10
+        CMP R15,R4
+        jl divisao
+        jeq final_divisao
+        jne fimno
+final_divisao:
+        ADD.W #1,R10
+fimno:
+      MOV.W R10,R13
+        RET
 
 8. Escreva uma sub-rotina na linguagem Assembly do MSP430 que indica se um vetor esta ordenado de forma decrescente. Por exemplo:
 [5 4 3 2 1] e [90 23 20 10] estão ordenados de forma decrescente.
