@@ -54,6 +54,7 @@ fim:
         CMP #3,R14
         jne divisao
 	MOV.W R8,R15
+	RET
 
 2. (a) Escreva uma função em C que calcule 'x' elevado à 'N'-ésima potência, seguindo o seguinte protótipo: 
 
@@ -97,12 +98,13 @@ POTENCIA:
         MOV.W #0,R7
         JNE MULTIPLICACAO
         MOV.W R5, R15
+	RET
 
 3. Escreva uma sub-rotina na linguagem Assembly do MSP430 que calcula a divisão de 'a' por 'b', onde 'a', 'b' e o valor de saída são inteiros de 16 bits. 'a' e 'b' são fornecidos através dos registradores R15 e R14, respectivamente, e a saída deverá ser fornecida através do registrador R15.
 	
 	MOV.W #8,R6 ;valores de entrada
         MOV.W #3,R8 ;valores de entrada
-        
+funcdivisao:
         MOV.W #0,R10                 
         MOV.W #0,R14     
         MOV.W #8,R6
@@ -123,11 +125,13 @@ final_divisao:
         
 fim:    
         MOV.W R10,R15
+	RET
 4. Escreva uma sub-rotina na linguagem Assembly do MSP430 que calcula o resto da divisão de 'a' por 'b', onde 'a', 'b' e o valor de saída são inteiros de 16 bits. 'a' e 'b' são fornecidos através dos registradores R15 e R14, respectivamente, e a saída deverá ser fornecida através do registrador R15.
 
         MOV.W #8,R6 ;valores de entrada
         MOV.W #5,R8 ;valores de entrada
         
+funcresto:
         MOV.W #0,R10                 
         MOV.W #0,R14     
         MOV.W #8,R6
@@ -149,6 +153,7 @@ final_divisao:
         
 fim:    
         MOV.W R9,R15
+	RET
 5. (a) Escreva uma função em C que indica a primalidade de uma variável inteira sem sinal, retornando o valor 1 se o número for primo, e 0, caso contrário. Siga o seguinte protótipo:
 
 	int Primalidade(unsigned int x)
@@ -228,7 +233,7 @@ retornazero:
 retornaum:
         MOV.W #1,R15
 VERYEND:
-
+	RET
 6. Escreva uma função em C que calcula o duplo fatorial de n, representado por n!!. Se n for ímpar, n!! = 1*3*5*...*n, e se n for par, n!! = 2*4*6*...*n. Por exemplo, 9!! = 1*3*5*7*9 = 945 e 10!! = 2*4*6*8*10 = 3840. Além disso, 0!! = 1!! = 1.
 O protótipo da função é:
 
