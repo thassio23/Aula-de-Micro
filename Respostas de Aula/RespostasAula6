@@ -401,8 +401,118 @@ fimno:
 [1 2 3 4 5] e [1 2 3 2] não estão.
 O primeiro endereço do vetor é fornecido pelo registrador R15, e o tamanho do vetor é fornecido pelo registrador R14. A saída deverá ser fornecida no registrador R15, valendo 1 quando o vetor estiver ordenado de forma decrescente, e valendo 0 em caso contrário.
 
+ehdecrescente:
+
+        MOV.W #4,R5 ; Entrada tamanho do vetor      
+        MOV.W #6,0(R15) ;entrada numeros do vetor
+        MOV.W #5,2(R15); 
+        MOV.W #5,4(R15); 
+        MOV.W #5,6(R15); 
+        MOV.W #2,8(R15); 
+        MOV.W #1,10(R15);
+        MOV.W #1,R6
+        MOV.W #1,R7    
+        CMP R6,R5
+        JEQ fim
+        INC.W R6
+        CMP 2(R15),0(R15)
+        JL fim
+        INC.W R7
+        CMP R6,R5
+        JEQ fim
+        INC.W R6
+        CMP 4(R15),2(R15)
+        JL fim
+        INC.W R7
+        CMP R6,R5
+        JEQ fim
+        INC.W R6
+        CMP 6(R15),4(R15)
+        JL fim
+        INC.W R7
+        CMP R6,R5
+        JEQ fim
+        INC.W R6
+        CMP 8(R4),6(R4)
+        JL fim
+        INC.W R7
+        CMP R6,R5
+        JEQ fim
+        INC.W R6
+        CMP 10(R4),8(R4)
+        JL fim
+        INC.W R7
+fim:
+      CMP R7,R5
+      JEQ retornaum
+      MOV.W #0, R15
+      JMP finalmesmo
+retornaum:
+      MOV #1,R15
+finalmesmo:
+              RET
+	      
 9. Escreva uma sub-rotina na linguagem Assembly do MSP430 que calcula o produto escalar de dois vetores, 'a' e 'b':
-	
+
+PRODUTOESCALAR:
+
+        MOV.W #4,0(R12) ;entrada numeros do vetor A
+        MOV.W #3,2(R12); 
+        MOV.W #2,4(R12); 
+        MOV.W #1,6(R12); 
+    
+        MOV.W #1,0(R14) ;entrada numeros do vetor B
+        MOV.W #1,2(R14); 
+        MOV.W #1,4(R14); 
+        MOV.W #1,6(R14); 
+        
+       MOV.W 0(R12),R8
+       MOV.W 0(R12), R10
+       MOV.W 0(R14),R5
+       MOV.W #1,R7
+       call #MULTIPLICACAO
+       MOV.W R10, 0(R13)
+       
+       MOV.W 2(R12),R8
+       MOV.W 2(R12), R10
+       MOV.W 2(R14),R5
+       MOV.W #1,R7
+       call #MULTIPLICACAO
+       MOV.W R10, 2(R13)
+       
+       MOV.W 4(R12),R8
+       MOV.W 4(R12), R10
+       MOV.W 4(R14),R5
+       MOV.W #1,R7
+       call #MULTIPLICACAO
+       MOV.W R10, 4(R13)
+       
+       MOV.W 6(R12),R8
+       MOV.W 6(R12), R10
+       MOV.W 6(R14),R5
+       MOV.W #1,R7
+       call #MULTIPLICACAO
+       MOV.W R10, 6(R13)
+       
+       ADD 0(R13),2(R13)
+       ADD 2(R13),4(R13)
+       ADD 4(R13),6(R13)
+       JMP acaba
+       
+MULTIPLICACAO:
+         CMP R7, R5
+         JEQ amult
+         ADD.W #1,R7
+         ADD.W R8,R10
+         jmp MULTIPLICACAO
+amult:
+          RET
+          
+acaba: 
+          MOV.W 6(R13),R15
+          
+          RET
+	  
 O primeiro endereço do vetor 'a' deverá ser passado através do registrador R15, o primeiro endereço do vetor 'b' deverá ser passado através do registrador R14, e o tamanho do vetor deverá ser passado pelo registrador R13. A saída deverá ser fornecida no registrador R15.
 
 10. (a) Escreva uma função em C que indica se um vetor é palíndromo. Por exemplo:
@@ -433,3 +543,37 @@ Se o vetor for palíndromo, retorne o valor 1. Caso contrário, retorne o valor 
 }
 
 (b) Escreva a sub-rotina equivalente na linguagem Assembly do MSP430. O endereço do vetor de entrada é dado pelo registrador R15, o tamanho do vetor é dado pelo registrador R14, e o resultado é dado pelo registrador R15.
+
+PALINDROMO:
+
+        MOV.W #4,0(R12) ;entrada numeros do vetor A
+        MOV.W #2,2(R12); 
+        MOV.W #2,4(R12); 
+        MOV.W #4,6(R12); 
+    
+       MOV 0(R12),6(R15)
+       MOV 2(R12),4(R15)
+       MOV 4(R12),2(R15)
+       MOV 6(R12),0(R15)
+       
+       CMP 0(R12),0(R15)
+       JNE naoeh
+       
+
+       CMP 2(R12),2(R15)
+       JNE naoeh
+       
+
+       CMP 4(R12),4(R15)
+       JNE naoeh
+       
+
+       CMP 6(R12),6(R15)
+       JNE naoeh
+       MOV.W #1, R15
+       JMP acaba
+       
+naoeh:
+       MOV #0,R15
+acaba:
+       RET
