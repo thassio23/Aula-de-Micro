@@ -1,0 +1,103 @@
+Data: 26/04/2017
+Thássio Gabriel Farias dos Santos
+1. Escreva um código em C que pisca os LEDs ininterruptamente.
+
+#include <msp430g2553.h>
+
+int main(void) {
+  volatile int i;
+ 
+  WDTCTL = WDTPW | WDTHOLD;
+  P1DIR =  BIT6 + BIT0;
+  P1OUT =  BIT6 + BIT0;
+   
+  for (;;) {
+
+    P1OUT ^=  BIT6 + BIT0;
+
+    for (i = 0; i < 0x1000; i++);
+  }
+  
+  }
+  
+2. Escreva um código em C que pisca os LEDs ininterruptamente. No ciclo que pisca os LEDs, o tempo que os LEDs ficam ligados deve ser duas vezes maior do que o tempo que eles ficam desligados.
+
+#include <msp430g2553.h>
+#define BTN BIT2
+int main(void) {
+  volatile int i,j;
+  
+  WDTCTL = WDTPW | WDTHOLD;
+  P1DIR =  BIT6 + BIT0;
+  P1OUT = 0;
+  i = 0;
+  j = 0;
+  for (;;) {
+     
+  j = i*2;
+    
+    P1OUT ^=  BIT6 + BIT0;
+    for (i = 0; i < j ; i++);
+    P1OUT ^=  BIT6 + BIT0;
+    for (i = 0; i < 0x1000 ; i++);
+    P1OUT ^=  BIT6 + BIT0;
+    for (i = 0; i < j ; i++);
+    P1OUT ^=  BIT6 + BIT0;
+    for (i = 0; i < 0x1000 ; i++);
+     
+    
+  }
+  
+  }
+  
+3. Escreva um código em C que acende os LEDs quando o botão é pressionado.
+
+
+#include <msp430g2553.h>
+#define BTN BIT2
+int main(void) {
+  volatile int i,j;
+  
+  WDTCTL = WDTPW | WDTHOLD;
+  P1DIR =  BIT6 + BIT0;
+  P1OUT = 0;
+  i = 0;
+  for (;;) {
+     
+     
+     if((P1IN & BTN) == BTN){
+    P1OUT =  BIT6 + BIT0;
+    }
+     else P1OUT &=~(BIT6 + BIT0);
+     
+    
+  }
+  
+  }
+
+4. Escreva um código em C que pisca os LEDs ininterruptamente somente se o botão for pressionado.
+
+#include <msp430g2553.h>
+#define BTN BIT2
+int main(void) {
+  volatile int i,j;
+  
+  WDTCTL = WDTPW | WDTHOLD;
+  P1DIR =  BIT6 + BIT0;
+  P1OUT = 0;
+  i = 0;
+  for (;;) {
+     
+     
+     if((P1IN & BTN) == BTN){
+    P1OUT ^=  BIT6 + BIT0;
+     for(i = 0; i< 0x1000; i++);
+    }
+     else P1OUT &=~(BIT6 + BIT0);
+     
+    
+  }
+  
+  }
+
+5. Escreva um código em C que acende os LEDs quando o botão é pressionado. Deixe o MSP430 em modo de baixo consumo, e habilite a interrupção do botão.
