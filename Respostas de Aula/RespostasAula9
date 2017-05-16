@@ -1,6 +1,6 @@
 1. Escreva uma função em C que faz o debounce de botões ligados à porta P1.
 
-int debounce(void){
+void debounce(){
    
    int i;
    
