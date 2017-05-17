@@ -107,20 +107,20 @@ int main(void) {
 void main(void)
 {
   
-  WDTCTL = WDTPW + WDTHOLD;     // Stop WDT  
-  CCTL0 = CCIE;                             // CCR0 interrupt enabled
-  TACTL = TASSEL_2 + MC_1 + ID_3;           // SMCLK/8, upmode
-  CCR0 =  10000;                     // 12.5 Hz   
-  P1OUT &= 0x00;               // Shut down everything
+  WDTCTL = WDTPW + WDTHOLD;    
+  CCTL0 = CCIE;                            
+  TACTL = TASSEL_2 + MC_1 + ID_3;          
+  CCR0 =  10000;                        
+  P1OUT &= 0x00;               
   P1DIR &= 0x00;               
-  P1DIR |= BIT0 + BIT6;            // P1.0 and P1.6 pins output the rest are input 
-  P1REN |= BIT3;                   // Enable internal pull-up/down resistors
-  P1OUT |= BIT3;                   //Select pull-up mode for P1.3
-  P1IE |= BIT3;                       // P1.3 interrupt enabled
-  P1IES |= BIT3;                     // P1.3 Hi/lo edge
-  P1IFG &= ~BIT3;                  // P1.3 IFG cleared
-  _BIS_SR(CPUOFF + GIE);          // Enter LPM0 w/ interrupt 
-  while(1)                          //Loop forever, we work with interrupts!
+  P1DIR |= BIT0 + BIT6;         
+  P1REN |= BIT3;               
+  P1OUT |= BIT3;               
+  P1IE |= BIT3;                
+  P1IES |= BIT3;               
+  P1IFG &= ~BIT3;              
+  _BIS_SR(CPUOFF + GIE);        
+  while(1)                     
   {}
 } 
 
@@ -129,9 +129,9 @@ void main(void)
 __interrupt void Port_1(void)
 { 
    int i;
-   P1OUT ^= BIT6;                      // Toggle P1.6
+   P1OUT ^= BIT6;                     
    for(i = 0; i< 0x9000; i++);
    P1OUT ^= BIT6; 
-   P1IFG &= ~BIT3;                     // P1.3 IFG cleared 
+   P1IFG &= ~BIT3;                   
    
 }
