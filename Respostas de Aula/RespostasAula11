@@ -1,14 +1,218 @@
-1. Defina a função void Atraso(volatile unsigned int x); que fornece um atraso de 'x' milissegundos. Utilize o Timer_A para a contagem de tempo, e assuma que o SMCLK já foi configurado para funcionar a 1 MHz. Esta função poderá ser utilizada diretamente nas outras questões desta prova.
+1. Defina a função void Atraso(volatile unsigned long int x); que fornece um atraso de 'x' milissegundos. Utilize o Timer_A para a contagem de tempo, e assuma que o SMCLK já foi configurado para funcionar a 1 MHz. Esta função poderá ser utilizada diretamente nas outras questões desta prova.
+
+void Atraso(volatile unsigned long int x){
+  
+                long int i;
+                x = 65*x;
+                
+                while((TA0CTL & TAIFG)==0);
+                for(i=0;i<x;i++);
+		P1OUT ^= BIT0 + BIT6;
+		TA0CTL &= ~TAIFG;
+  
+}
 
 2. Pisque os LEDs da Launchpad numa frequência de 100 Hz.
 
+int main(void)
+{
+	WDTCTL = WDTPW + WDTHOLD;
+	int x;
+	BCSCTL1 = CALBC1_1MHZ;		
+	DCOCTL = CALDCO_1MHZ;		
+	P1OUT = 0;
+	P1DIR |= BIT0 + BIT6;
+	TA0CCR0 = 1;
+	TA0CTL = TASSEL_2 + ID_3 + MC_3;
+        
+        x = 10; // 10 milisegundos
+	while(1)
+	{       
+          Atraso(x);
+	}
+	return 0;
+}
+
 3. Pisque os LEDs da Launchpad numa frequência de 20 Hz.
+
+int main(void)
+{
+	WDTCTL = WDTPW + WDTHOLD;
+	int x;
+	BCSCTL1 = CALBC1_1MHZ;		
+	DCOCTL = CALDCO_1MHZ;		
+	P1OUT = 0;
+	P1DIR |= BIT0 + BIT6;
+	TA0CCR0 = 1;
+	TA0CTL = TASSEL_2 + ID_3 + MC_3;
+        
+        x = 50; // 50 milisegundos
+	while(1)
+	{       
+          Atraso(x);
+	}
+	return 0;
+}
 
 4. Pisque os LEDs da Launchpad numa frequência de 1 Hz.
 
+#include <msp430g2553.h>
+
+int main(void)
+{
+	WDTCTL = WDTPW + WDTHOLD;
+	int x;
+	BCSCTL1 = CALBC1_1MHZ;		
+	DCOCTL = CALDCO_1MHZ;		
+	P1OUT = 0;
+	P1DIR |= BIT0 + BIT6;
+	TA0CCR0 = 1;
+	TA0CTL = TASSEL_2 + ID_3 + MC_3;
+        
+        x = 1000; // 1000 milisegundos
+	while(1)
+	{       
+          Atraso(x);
+	}
+	return 0;
+}
+
+
 5. Pisque os LEDs da Launchpad numa frequência de 0,5 Hz.
 
+#include <msp430g2553.h>
+
+int main(void)
+{
+	WDTCTL = WDTPW + WDTHOLD;
+	int x;
+	BCSCTL1 = CALBC1_1MHZ;		
+	DCOCTL = CALDCO_1MHZ;		
+	P1OUT = 0;
+	P1DIR |= BIT0 + BIT6;
+	TA0CCR0 = 1;
+	TA0CTL = TASSEL_2 + ID_3 + MC_3;
+        
+        x = 2000; // 2000 milisegundos
+	while(1)
+	{       
+          Atraso(x);
+	}
+	return 0;
+}
+
 6. Repita as questões 2 a 5 usando a interrupção do Timer A para acender ou apagar os LEDs.
+
+#include "msp430g2231.h"  
+void main(void)
+{
+  WDTCTL = WDTPW + WDTHOLD;       
+  CCTL0 = CCIE;                            
+  TACTL = TASSEL_2 + MC_1 + ID_3;          
+  CCR0 =  1;                       
+  P1OUT &= 0x00;               
+  P1DIR &= 0x00;               
+  P1DIR |= BIT0 + BIT6;            
+  _BIS_SR(CPUOFF + GIE);           
+  while(1)                                                                                
+  {}
+} 
+#pragma vector=TIMERA0_VECTOR 
+__interrupt void Timer_A (void) 
+{   
+   long int i;
+   long int x;
+   x = 10;
+   x = 65*x;
+   for(i=0;i<x;i++);
+   P1OUT ^= BIT0;                                                                                 
+}
+
+
+//////////////////////////////////
+
+
+
+#include "msp430g2231.h"  
+void main(void)
+{
+  WDTCTL = WDTPW + WDTHOLD;                                                             
+  CCTL0 = CCIE;                             
+  TACTL = TASSEL_2 + MC_1 + ID_3;                                                                  
+  CCR0 =  1;                                                                             
+  P1OUT &= 0x00;                                                                     
+  P1DIR &= 0x00;               
+  P1DIR |= BIT0 + BIT6;                                                                  
+  _BIS_SR(CPUOFF + GIE);                                                                 
+  while(1)                                                                                 
+  {}
+} 
+#pragma vector=TIMERA0_VECTOR 
+__interrupt void Timer_A (void) 
+{   
+   long int i;
+   long int x;
+   x = 50;
+   x = 65*x;
+   for(i=0;i<x;i++);
+   P1OUT ^= BIT0;                                                                                
+} 
+
+////////////////////////////////////////
+
+#include "msp430g2231.h"  
+void main(void)
+{
+  WDTCTL = WDTPW + WDTHOLD;                                                            
+  CCTL0 = CCIE;                                                                                   
+  TACTL = TASSEL_2 + MC_1 + ID_3;                                                                 
+  CCR0 =  1;                                                                            
+  P1OUT &= 0x00;                                                                                                                          
+  P1DIR &= 0x00;               
+  P1DIR |= BIT0 + BIT6;                                                                  
+  _BIS_SR(CPUOFF + GIE);                                                                 
+  while(1)                                                                                 
+  {}
+} 
+#pragma vector=TIMERA0_VECTOR 
+__interrupt void Timer_A (void) 
+{   
+   long int i;
+   long int x;
+   x = 1000;
+   x = 65*x;
+   for(i=0;i<x;i++);
+   P1OUT ^= BIT0;                                                                                 
+} 
+
+////////////////////////////////////////////////
+
+#include "msp430g2231.h"  
+void main(void)
+{
+  WDTCTL = WDTPW + WDTHOLD;                                                            
+  CCTL0 = CCIE;                                                                                   
+  TACTL = TASSEL_2 + MC_1 + ID_3;                                                            
+  CCR0 =  1;                    
+  P1OUT &= 0x00;             
+  P1DIR &= 0x00;               
+  P1DIR |= BIT0 + BIT6;           
+  _BIS_SR(CPUOFF + GIE);        
+  while(1)                          
+  {}
+} 
+#pragma vector=TIMERA0_VECTOR 
+__interrupt void Timer_A (void) 
+{   
+   long int i;
+   long int x;
+   x = 2000;
+   x = 65*x;
+   for(i=0;i<x;i++);
+   P1OUT ^= BIT0;                        
+} 
+
+//////////////////////////////////////////////////////////
 
 7. Defina a função void paralelo_para_serial(void); que lê o byte de entrada via porta P1 e transmite os bits serialmente via pino P2.0. Comece com um bit em nivel alto, depois os bits na ordem P1.0 - P1.1 - … - P1.7 e termine com um bit em nível baixo. Considere um período de 1 ms entre os bits.
 
