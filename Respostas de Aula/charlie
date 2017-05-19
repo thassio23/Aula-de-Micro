@@ -1,0 +1,38 @@
+
+#include <msp430g2553.h>
+#define CHPX1 BIT0
+#define CHPX2 BIT1
+#define CHPX3 BIT2
+#define CHPX3 BIT2
+#define CHPX5(CHPX1 + CHPX2 + CHPX3)
+
+int main(void)
+{
+WDTCTL = WDTPW | WDTHOLD;
+while(1){
+P1DIR = CHPX1 + CHPX2;
+P1OUT = CHPX1;
+P1OUT = CHPX2;
+P1DIR = CHPX2 + CHPX3;
+P1OUT = CHPX2;
+P1OUT = CHPX3;
+P1DIR = CHPX1 + CHPX3;
+P1OUT = CHPX1;
+P1OUT = CHPX3;
+}
+}
+
+função
+
+void charlie_on(char CHPX_OUT, char CHPX_ON)
+{
+
+  P1OUT &=~ CHPX5;
+  P1DIR &=~ CHPX5;
+  P1DIR |= CHPX_OUT;
+  P1DIR |= CHPX_ON;
+  
+}
+
+como chamar a função
+
