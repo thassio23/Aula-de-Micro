@@ -34,5 +34,19 @@ void charlie_on(char CHPX_OUT, char CHPX_ON)
   
 }
 
-como chamar a função
+
+
+
+void Atraso(volatole unsigned int x)
+{
+
+TACCR0 = 1000-1;
+TACTL |= TACLR;
+TACTL = TASSEL_2 + ID_0 + MC_1;
+while(x>0){
+x--;
+while((TACTL & TAIFG)==0);
+TACTL &=~ TAIFG;
+}
+}
 
