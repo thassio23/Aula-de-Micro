@@ -1,0 +1,83 @@
+#include "msp430g2553.h"
+unsigned int ValorRecebido=0;
+
+void atraso(volatile unsigned int x)
+{
+  TACCR0 = 100-1;
+  TACTL |= TACLR;
+  TACTL = TASSEL_2 + ID_0 + MC_1;
+  while(x>0)
+  {
+    x--;
+    while((TACTL & TAIFG) == 0);
+    TACTL &=~TAIFG;
+  }
+  TACTL = MC_0;
+}
+
+int regrade3(unsigned int x)
+{
+  int pwm;
+  pwm = (x*17/1023) + 5;
+  
+  
+  return pwm;
+}
+
+void main(void)
+
+{
+   unsigned int ValorRecebido;
+   unsigned int ValorAtraso;
+   WDTCTL = WDTPW + WDTHOLD;  
+   ADC10CTL1 = INCH_5 + ADC10DIV_3 ;
+   ADC10CTL0 = SREF_0 + ADC10SHT_3 + ADC10ON + ADC10IE;
+   ADC10AE0 |= BIT5;
+   BCSCTL1 = CALBC1_1MHZ;
+   DCOCTL = CALDCO_1MHZ;
+   BCSCTL2 &= ~(DIVS_3);
+   P1DIR |= BIT6 + BIT0 + BIT4;
+   P1SEL |= BIT5;
+   P1REN |= BIT3;            
+   P1OUT |= BIT3;                  
+   P1IE |= BIT3;                     
+   P1IES |= BIT3;                   
+   P1IFG &= ~BIT3;  
+   __enable_interrupt();
+
+
+
+   while(1)
+
+   {
+
+      ADC10CTL0 |= ENC + ADC10SC;
+      __bis_SR_register(CPUOFF + GIE);
+      ValorRecebido = ADC10MEM;
+      atraso(10);
+      ValorRecebido = ADC10MEM;
+      ValorAtraso = 190;
+      atraso(ValorAtraso);
+      P1OUT = BIT4;
+      ValorAtraso = regrade3(ValorRecebido);
+      atraso(ValorAtraso);
+       P1OUT = 0;
+
+
+}
+}
+
+#pragma vector=ADC10_VECTOR
+
+__interrupt void ADC10_ISR (void)
+
+{
+   __bic_SR_register_on_exit(CPUOFF);
+}
+
+#pragma vector=PORT1_VECTOR
+__interrupt void Port_1(void)
+{    
+   P1OUT ^= BIT6;                     
+   P1IFG &= ~BIT3;                   
+}
