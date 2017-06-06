@@ -1,0 +1,86 @@
+Funções em Assembly
+
+; FUNÇÃO ATRASO        
+        
+ATRASO:
+        MOV.W #0x63,&TA0CCR0
+        BIS.W #0x4,&TA0CTL
+        MOV.W #0x210,&TA0CTL
+        
+WHILE: CMP #0,R12
+       JEQ FINALATRASO
+       DEC R12
+WHILET:
+        BIT.W #0x1,&TA0CTL
+        JNC WHILET
+        BIC.W #0x1,&TA0CTL
+        JMP WHILE
+
+FINALATRASO:
+            CLR.W &TA0CTL
+;;------------------------------------------
+
+FUNÇÃO REGRA DE 3
+
+Regrade3:
+mov.w #17, R14
+call #Multiplicacao
+mov.w R4, R14              ;R4 é o valor do calibrador
+mov.w R15, R8
+call #Divisao
+add.w #5, R10
+jmp FIMMESMO
+
+
+
+;R14 multiplicador
+;R13 numero que ta sendo multiplicado
+;R15 resultado
+Multiplicacao:
+mov.w R13, R15
+mov.w R14, R12
+cmp #0, R14
+jeq CondiZero
+cmp #1, R14
+jeq FIM
+Somas:
+add.w R13, R15
+cmp #2, R12
+jeq FIM
+dec.w R12
+jmp Somas
+CondiZero:
+mov.w #0, R15     ;Resultado em R15
+jmp FIM
+FIM:
+clr.w R12
+ret
+
+Divisao:
+cmp R14, R8
+jl Condi1
+cmp #1, R14
+jeq Condicao1
+mov.w R14, R11
+sub.w R14, R8
+add.w #1, R12          ; R8/R14
+Comparar:
+dec.w R11
+cmp R11, R8
+jeq Resultado
+cmp #0, R11
+jeq Divisao
+jmp Comparar
+Condicao1:
+mov.w R8, R12
+jmp Resultado
+Condi1:
+mov.w #0, R12
+jmp Resultado
+Resultado:
+mov.w R12, R10  ;Resultado dado em R10
+clr.w R14
+clr.w R12
+clr.w R11
+clr.w R8
+ret
