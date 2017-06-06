@@ -47,11 +47,10 @@ void main(void)
                 _BIS_SR(GIE);          
                 
 		while(1)
-		{
-			atraso(10);				
+		{				
 			ADC10CTL0 |= ENC + ADC10SC;			
 			ValorRecebido = ADC10MEM;
-                         ValorAtraso = 190;
+                         ValorAtraso = 200;
                          atraso(ValorAtraso);
                          P1OUT |= BIT4;
                          ValorAtraso = regrade3cal(ValorRecebido, calibrador);
