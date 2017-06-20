@@ -1,0 +1,69 @@
+#include <msp430g2553.h>
+
+unsigned int conta = 0;
+unsigned int calibrador = 1023;
+
+int regrade3cal(unsigned int x, unsigned int c)
+{
+  int pwm;
+  pwm = 100*((x*20/c) + 5);
+  return pwm-1;
+}
+void main(void)
+{
+	{
+                unsigned int ValorRecebido;
+                int ValorAtraso;
+                WDTCTL = WDTPW + WDTHOLD;
+                ADC10CTL1 = INCH_5 + ADC10DIV_3 ;
+                ADC10CTL0 = SREF_0 + ADC10SHT_3 + ADC10ON;
+                ADC10AE0 |= BIT5;
+		P1SEL |= BIT5;
+                BCSCTL1 = CALBC1_1MHZ;
+                DCOCTL = CALDCO_1MHZ;
+                P1OUT = 0;
+                P1DIR |= BIT2 + BIT0 + BIT6;
+                P1REN |= BIT3;
+                P1OUT |= BIT3;
+                P1IE |= BIT3;
+                P1IES |= BIT3;
+                P1IFG &= ~BIT3;
+                P1DIR |= BIT2;
+                P1SEL |= BIT2;
+                P1SEL2 &= ~BIT2;
+                TACCR0 = 20000-1;
+                TACCTL1 = OUTMOD_7;
+                TACTL = TASSEL_2 + ID_0 + MC_1;
+                _BIS_SR(GIE);
+
+		while(1)
+		{
+                        int o;
+                        __delay_cycles(1000);
+			ADC10CTL0 |= ENC + ADC10SC;
+			ValorRecebido = ADC10MEM;
+                        TACCR1 = regrade3cal(ValorRecebido, calibrador);
+		}
+
+	}
+}
+
+
+#pragma vector=PORT1_VECTOR
+__interrupt void Port_1(void)
+{
+   long int o;
+   P1OUT |= BIT0;
+   for(o=0;o<40000;o++);
+   calibrador = calibrador - 100;
+   conta = conta + 1;
+   P1OUT ^= BIT0;
+   if (conta == 6){
+   conta = 0;
+   calibrador = 1023;
+   P1OUT |= BIT6;
+   for(o=0;o<40000;o++);
+   P1OUT ^=BIT6;
+   }
+   P1IFG &= ~BIT3;
+}
